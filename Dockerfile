@@ -8,10 +8,12 @@ RUN apt-get update
 RUN pip install numpy>=1.18.5
 RUN pip install pandas>=1.1.4
 RUN pip install tqdm>=4.41.0
+RUN pip install requests
+RUN pip install openpyxl
 
 WORKDIR /openapi
 
 ####### start with Dockerfile
 # docker build . -t <name>:<tag>
-# docker run --rm -ti -v $(pws):/openapi <name>:<tag> bash
+# docker run --rm -ti -v $(pwd):/openapi <name>:<tag> bash
 
