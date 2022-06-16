@@ -1,5 +1,5 @@
 # project
-*/.DS_Store
+**/.DS_Store
 data/
 code/get_openAPI_data.py
 
