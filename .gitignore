@@ -1,3 +1,8 @@
+# project
+**/.DS_Store
+data/
+code/get_openAPI_data.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

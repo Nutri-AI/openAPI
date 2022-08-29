@@ -1,0 +1,63 @@
+import requests
+import csv
+
+# get openAPI data in json
+def get_data(key, data_cd):
+    data_list = list()
+    
+    i = 0
+    while True:
+        url = f'http://openapi.foodsafetykorea.go.kr/api/{key}/{data_cd}/json/{1+1000*i}/{1000*(i+1)}/'
+
+        try:
+            response = requests.get(url)
+            data_json = response.json()
+            result = data_json[data_cd]['RESULT']
+            
+            if result['CODE'] == 'INFO-000':
+                data_list += data_json[data_cd]['row']
+            else:
+                print(result['MSG'])
+                break
+            i += 1
+        except Exception as e:
+            print(i)
+            print(e)
+            break
+
+    return data_list
+
+# json to csv file
+def json_to_csv(file_name, json_list):
+    try:
+        with open(file_name, 'w', newline='', encoding='UTF-8') as csvfile:
+            wrt = csv.DictWriter(csvfile, json_list[0].keys())
+            wrt.writeheader()
+            for data in json_list:
+                wrt.writerow(data)
+            print(f'{file_name} 파일을 생성했습니다.')
+    except Exception as e :
+        print(e)
+
+
+if __name__=='__main__':
+    # API 인증키
+    key = ''
+
+    # 유통바코드
+    BRCD_NO_cd = 'I2570'
+    BRCD_NO_data = get_data(key, BRCD_NO_cd)
+
+    BRCD_NO_file_name = '../data/유통바코드_20220529.csv'
+    json_to_csv(BRCD_NO_file_name, BRCD_NO_data)
+
+    # 바코드연계제품정보
+    BAR_CD_cd = 'C005'
+    BAR_CD_data = get_data(key, BAR_CD_cd)
+    
+    BAR_CD_file_name = '../data/바코드연계제품정보_20220529.csv'
+    json_to_csv(BAR_CD_file_name, BAR_CD_data)
+
+
+
+
